@@ -100,7 +100,8 @@ const organisationRegisterSchema = new mongoose.Schema({
   createdAt: {
     type: Date,
     default: Date.now
-  }
+  },
+  // token
 });
 
 module.exports = mongoose.model('OrganisationRegister', organisationRegisterSchema);

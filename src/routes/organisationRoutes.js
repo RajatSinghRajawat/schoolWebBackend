@@ -11,7 +11,9 @@ const {
     loginOrganisation,
     sendForgetPasswordOTP,
     verifyForgetPasswordOTP,
-    resetPassword
+    resetPassword,
+    getOrganisationProfile,
+    updateOrganisationProfile
 } = require('../controllers/OrganisationRegister');
 
 // Mobile OTP Routes
@@ -32,5 +34,7 @@ router.post('/register', registerOrganisation);
 router.post('/login', loginOrganisation);
 router.get('/', getAllOrganisations);
 router.get('/:id', getOrganisationById);
+router.post('/profile/:id', getOrganisationProfile);
+router.put('/Updateprofile', updateOrganisationProfile);
 
 module.exports = router; 
