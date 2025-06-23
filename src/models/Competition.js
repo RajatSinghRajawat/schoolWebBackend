@@ -5,6 +5,11 @@ const competitionSchema = new mongoose.Schema({
     type:String,
     required:true
   },
+  organizerId: {
+    type: mongoose.Schema.Types.ObjectId, // Reference to the OrganisationRegister model
+    ref: 'OrganisationRegister', // Model name for the organiser
+    required: true // Make it required to ensure every competition is linked to an organiser
+  },
   overview: {
     name: {
       type: String,
