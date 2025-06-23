@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Competition API Documentation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        h1 {
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #2980b9;
+            margin-top: 30px;
+        }
+        .endpoint {
+            background-color: #f9f9f9;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+            border-left: 4px solid #3498db;
+        }
+        .method {
+            font-weight: bold;
+            color: #e74c3c;
+        }
+        .url {
+            background-color: #eee;
+            padding: 5px 10px;
+            border-radius: 3px;
+            font-family: monospace;
+        }
+        pre {
+            background-color: #2c3e50;
+            color: #fff;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        .response {
+            background-color: #f0f8ff;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        .note {
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 10px;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Competition API Documentation</h1>
+
+        <h2>Overview APIs</h2>
+        <div class="endpoint">
+            <h3>Create Competition Overview</h3>
+            <p><span class="method">POST</span> <span class="url">/api/competitions/overview</span></p>
+            
+            <div class="note">
+                <strong>Note:</strong> This endpoint accepts multipart/form-data for image upload. The image field must be named 'image'.
+            </div>
+
+            <h4>Request Body (multipart/form-data):</h4>
+            <pre>
+Form Fields:
+- name: "Math Olympiad 2024"
+- description: "Annual mathematics competition"
+- image: [file upload]
+- stages: [
+    {
+        "name": "Preliminary Round",
+        "date": "2024-03-01",
+        "duration": "2 hours"
+    }
+]
+            </pre>
+
+            <h4>cURL Example:</h4>
+            <pre>
+curl -X POST \
+  http://168.231.120.19:3001/api/competitions/overview \
+  -H 'Content-Type: multipart/form-data' \
+  -F 'name=Math Olympiad 2024' \
+  -F 'description=Annual mathematics competition' \
+  -F 'image=@/path/to/your/image.jpg' \
+  -F 'stages=[{"name":"Preliminary Round","date":"2024-03-01","duration":"2 hours"}]'
+            </pre>
+
+            <h4>JavaScript Example (using FormData):</h4>
+            <pre>
+const formData = new FormData();
+formData.append('name', 'Math Olympiad 2024');
+formData.append('description', 'Annual mathematics competition');
+formData.append('image', imageFile); // imageFile is a File object
+formData.append('stages', JSON.stringify([
+    {
+        name: "Preliminary Round",
+        date: "2024-03-01",
+        duration: "2 hours"
+    }
+]));
+
+fetch('http://168.231.120.19:3001/api/competitions/overview', {
+    method: 'POST',
+    body: formData
+})
+.then(response => response.json())
+.then(data => console.log(data))
+.catch(error => console.error('Error:', error));
+            </pre>
+
+            <h4>Response:</h4>
+            <pre>
+{
+    "name": "Math Olympiad 2024",
+    "image": "/uploads/competitions/competition-1234567890.jpg",
+    "description": "Annual mathematics competition",
+    "stages": [
+        {
+            "name": "Preliminary Round",
+            "date": "2024-03-01",
+            "duration": "2 hours"
+        }
+    ]
+}
+            </pre>
+        </div>
+
+        <div class="endpoint">
+            <h3>Update Competition Overview</h3>
+            <p><span class="method">PUT</span> <span class="url">/api/competitions/overview/:id</span></p>
+            
+            <div class="note">
+                <strong>Note:</strong> This endpoint accepts multipart/form-data for image upload. The image field is optional for updates.
+            </div>
+
+            <h4>Request Body (multipart/form-data):</h4>
+            <pre>
+Form Fields:
+- name: "Math Olympiad 2024 Updated"
+- description: "Updated description"
+- image: [file upload] (optional)
+- stages: [
+    {
+        "name": "Updated Round",
+        "date": "2024-04-01",
+        "duration": "3 hours"
+    }
+]
+            </pre>
+
+            <h4>cURL Example:</h4>
+            <pre>
+curl -X PUT \
+  http://168.231.120.19:3001/api/competitions/overview/123 \
+  -H 'Content-Type: multipart/form-data' \
+  -F 'name=Math Olympiad 2024 Updated' \
+  -F 'description=Updated description' \
+  -F 'image=@/path/to/your/new-image.jpg' \
+  -F 'stages=[{"name":"Updated Round","date":"2024-04-01","duration":"3 hours"}]'
+            </pre>
+
+            <h4>JavaScript Example (using FormData):</h4>
+            <pre>
+const formData = new FormData();
+formData.append('name', 'Math Olympiad 2024 Updated');
+formData.append('description', 'Updated description');
+formData.append('image', newImageFile); // newImageFile is a File object
+formData.append('stages', JSON.stringify([
+    {
+        name: "Updated Round",
+        date: "2024-04-01",
+        duration: "3 hours"
+    }
+]));
+
+fetch('http://168.231.120.19:3001/api/competitions/overview/123', {
+    method: 'PUT',
+    body: formData
+})
+.then(response => response.json())
+.then(data => console.log(data))
+.catch(error => console.error('Error:', error));
+            </pre>
+
+            <h4>Response:</h4>
+            <pre>
+{
+    "name": "Math Olympiad 2024 Updated",
+    "image": "/uploads/competitions/competition-9876543210.jpg",
+    "description": "Updated description",
+    "stages": [
+        {
+            "name": "Updated Round",
+            "date": "2024-04-01",
+            "duration": "3 hours"
+        }
+    ]
+}
+            </pre>
+        </div>
+
+        <h2>Syllabus APIs</h2>
+        <div class="endpoint">
+            <h3>Create Syllabus</h3>
+            <p><span class="method">POST</span> <span class="url">/api/competitions/syllabus/:id</span></p>
+            <h4>Request Body:</h4>
+            <pre>
+{
+    "topics": [
+        {
+            "name": "Algebra",
+            "subtopics": ["Linear Equations", "Quadratic Equations"],
+            "weightage": 30
+        },
+        {
+            "name": "Geometry",
+            "subtopics": ["Triangles", "Circles"],
+            "weightage": 20
+        }
+    ]
+}
+            </pre>
+            <h4>cURL Example:</h4>
+            <pre>
+curl -X POST \
+  http://168.231.120.19:3001/api/competitions/syllabus/123 \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "topics": [
+        {
+            "name": "Algebra",
+            "subtopics": ["Linear Equations", "Quadratic Equations"],
+            "weightage": 30
+        },
+        {
+            "name": "Geometry",
+            "subtopics": ["Triangles", "Circles"],
+            "weightage": 20
+        }
+    ]
+}'
+            </pre>
+            <h4>JavaScript Example:</h4>
+            <pre>
+fetch('http://168.231.120.19:3001/api/competitions/syllabus/123', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+        topics: [
+            {
+                name: "Algebra",
+                subtopics: ["Linear Equations", "Quadratic Equations"],
+                weightage: 30
+            },
+            {
+                name: "Geometry",
+                subtopics: ["Triangles", "Circles"],
+                weightage: 20
+            }
+        ]
+    })
+})
+.then(response => response.json())
+.then(data => console.log(data))
+.catch(error => console.error('Error:', error));
+            </pre>
+        </div>
+
+        <h2>Pattern APIs</h2>
+        <div class="endpoint">
+            <h3>Create Pattern</h3>
+            <p><span class="method">POST</span> <span class="url">/api/competitions/pattern/:id</span></p>
+            <h4>Request Body:</h4>
+            <pre>
+{
+    "sections": [
+        {
+            "name": "Multiple Choice Questions",
+            "questionCount": 30,
+            "marksPerQuestion": 4,
+            "negativeMarking": 1
+        },
+        {
+            "name": "Numerical Questions",
+            "questionCount": 20,
+            "marksPerQuestion": 5,
+            "negativeMarking": 0
+        }
+    ]
+}
+            </pre>
+            <h4>cURL Example:</h4>
+            <pre>
+curl -X POST \
+  http://168.231.120.19:3001/api/competitions/pattern/123 \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "sections": [
+        {
+            "name": "Multiple Choice Questions",
+            "questionCount": 30,
+            "marksPerQuestion": 4,
+            "negativeMarking": 1
+        },
+        {
+            "name": "Numerical Questions",
+            "questionCount": 20,
+            "marksPerQuestion": 5,
+            "negativeMarking": 0
+        }
+    ]
+}'
+            </pre>
+            <h4>JavaScript Example:</h4>
+            <pre>
+fetch('http://168.231.120.19:3001/api/competitions/pattern/123', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+        sections: [
+            {
+                name: "Multiple Choice Questions",
+                questionCount: 30,
+                marksPerQuestion: 4,
+                negativeMarking: 1
+            },
+            {
+                name: "Numerical Questions",
+                questionCount: 20,
+                marksPerQuestion: 5,
+                negativeMarking: 0
+            }
+        ]
+    })
+})
+.then(response => response.json())
+.then(data => console.log(data))
+.catch(error => console.error('Error:', error));
+            </pre>
+        </div>
+
+        <h2>Eligibility APIs</h2>
+        <div class="endpoint">
+            <h3>Create Eligibility</h3>
+            <p><span class="method">POST</span> <span class="url">/api/competitions/eligibility/:id</span></p>
+            <h4>Request Body:</h4>
+            <pre>
+{
+    "StudentInformation": {
+        "StudentDetails": [
+            "Must be between 15-18 years",
+            "Should have valid student ID", 
+            "Must be currently enrolled in school",
+            "Minimum 80% attendance required"
+        ],
+        "SchoolDetails": [
+            "School must be recognized by education board",
+            "School should provide recommendation letter",
+            "School registration certificate required",
+            "Principal'\''s approval needed"
+        ]
+    },
+    "eligibility": [
+        {
+            "criteria": "Age Limit",
+            "description": "Must be under 18 years as of January 1, 2024"
+        },
+        {
+            "criteria": "Education",
+            "description": "Must be enrolled in a recognized school"
+        },
+        {
+            "criteria": "Previous Performance",
+            "description": "Minimum 80% in mathematics in last academic year"
+        }
+    ]
+}
+            </pre>
+            <h4>cURL Example:</h4>
+            <pre>
+curl -X POST \
+  http://168.231.120.19:3001/api/competitions/eligibility/123 \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "StudentInformation": {
+        "StudentDetails": [
+            "Must be between 15-18 years",
+            "Should have valid student ID", 
+            "Must be currently enrolled in school",
+            "Minimum 80% attendance required"
+        ],
+        "SchoolDetails": [
+            "School must be recognized by education board",
+            "School should provide recommendation letter",
+            "School registration certificate required",
+            "Principal'\''s approval needed"
+        ]
+    },
+    "eligibility": [
+        {
+            "criteria": "Age Limit",
+            "description": "Must be under 18 years as of January 1, 2024"
+        },
+        {
+            "criteria": "Education",
+            "description": "Must be enrolled in a recognized school"
+        },
+        {
+            "criteria": "Previous Performance",
+            "description": "Minimum 80% in mathematics in last academic year"
+        }
+    ]
+}'
+            </pre>
+            <h4>JavaScript Example:</h4>
+            <pre>
+fetch('http://168.231.120.19:3001/api/competitions/eligibility/123', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+        StudentInformation: {
+            StudentDetails: [
+                "Must be between 15-18 years",
+                "Should have valid student ID", 
+                "Must be currently enrolled in school",
+                "Minimum 80% attendance required"
+            ],
+            SchoolDetails: [
+                "School must be recognized by education board",
+                "School should provide recommendation letter",
+                "School registration certificate required",
+                "Principal's approval needed"
+            ]
+        },
+        eligibility: [
+            {
+                criteria: "Age Limit",
+                description: "Must be under 18 years as of January 1, 2024"
+            },
+            {
+                criteria: "Education",
+                description: "Must be enrolled in a recognized school"
+            },
+            {
+                criteria: "Previous Performance",
+                description: "Minimum 80% in mathematics in last academic year"
+            }
+        ]
+    })
+})
+.then(response => response.json())
+.then(data => console.log(data))
+.catch(error => console.error('Error:', error));
+            </pre>
+        </div>
+
+        <h2>Registration APIs</h2>
+        <div class="endpoint">
+            <h3>Create Registration</h3>
+            <p><span class="method">POST</span> <span class="url">/api/competitions/registration/:id</span></p>
+            <h4>Request Body:</h4>
+            <pre>
+{
+    "registration_type": {
+        "type": "Individual",
+        "max_team_size": 1
+    },
+    "plans": [
+        {
+            "name": "Early Bird",
+            "price": 500,
+            "benefits": ["Study Material", "Mock Tests"],
+            "validity": "2024-02-01"
+        },
+        {
+            "name": "Regular",
+            "price": 750,
+            "benefits": ["Study Material"],
+            "validity": "2024-02-28"
+        }
+    ]
+}
+            </pre>
+            <h4>cURL Example:</h4>
+            <pre>
+curl -X POST \
+  http://168.231.120.19:3001/api/competitions/registration/123 \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "registration_type": {
+        "type": "Individual",
+        "max_team_size": 1
+    },
+    "plans": [
+        {
+            "name": "Early Bird",
+            "price": 500,
+            "benefits": ["Study Material", "Mock Tests"],
+            "validity": "2024-02-01"
+        },
+        {
+            "name": "Regular",
+            "price": 750,
+            "benefits": ["Study Material"],
+            "validity": "2024-02-28"
+        }
+    ]
+}'
+            </pre>
+            <h4>JavaScript Example:</h4>
+            <pre>
+fetch('http://168.231.120.19:3001/api/competitions/registration/123', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+        registration_type: {
+            type: "Individual",
+            max_team_size: 1
+        },
+        plans: [
+            {
+                name: "Early Bird",
+                price: 500,
+                benefits: ["Study Material", "Mock Tests"],
+                validity: "2024-02-01"
+            },
+            {
+                name: "Regular",
+                price: 750,
+                benefits: ["Study Material"],
+                validity: "2024-02-28"
+            }
+        ]
+    })
+})
+.then(response => response.json())
+.then(data => console.log(data))
+.catch(error => console.error('Error:', error));
+            </pre>
+        </div>
+
+        <h2>Awards APIs</h2>
+        <div class="endpoint">
+            <h3>Create Awards</h3>
+            <p><span class="method">POST</span> <span class="url">/api/competitions/awards/:id</span></p>
+            <h4>Request Body:</h4>
+            <pre>
+{
+    "awards": [
+        {
+            "position": "First",
+            "prize_money": 50000,
+            "additional_benefits": ["Trophy", "Certificate", "Internship Opportunity"]
+        },
+        {
+            "position": "Second",
+            "prize_money": 30000,
+            "additional_benefits": ["Trophy", "Certificate"]
+        },
+        {
+            "position": "Third",
+            "prize_money": 20000,
+            "additional_benefits": ["Trophy", "Certificate"]
+        }
+    ]
+}
+            </pre>
+            <h4>cURL Example:</h4>
+            <pre>
+curl -X POST \
+  http://168.231.120.19:3001/api/competitions/awards/123 \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "awards": [
+        {
+            "position": "First",
+            "prize_money": 50000,
+            "additional_benefits": ["Trophy", "Certificate", "Internship Opportunity"]
+        },
+        {
+            "position": "Second",
+            "prize_money": 30000,
+            "additional_benefits": ["Trophy", "Certificate"]
+        },
+        {
+            "position": "Third",
+            "prize_money": 20000,
+            "additional_benefits": ["Trophy", "Certificate"]
+        }
+    ]
+}'
+            </pre>
+            <h4>JavaScript Example:</h4>
+            <pre>
+fetch('http://168.231.120.19:3001/api/competitions/awards/123', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+        awards: [
+            {
+                position: "First",
+                prize_money: 50000,
+                additional_benefits: ["Trophy", "Certificate", "Internship Opportunity"]
+            },
+            {
+                position: "Second",
+                prize_money: 30000,
+                additional_benefits: ["Trophy", "Certificate"]
+            },
+            {
+                position: "Third",
+                prize_money: 20000,
+                additional_benefits: ["Trophy", "Certificate"]
+            }
+        ]
+    })
+})
+.then(response => response.json())
+.then(data => console.log(data))
+.catch(error => console.error('Error:', error));
+            </pre>
+        </div>
+    </div>
+</body>
+</html> 

@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Organisation Registration API Documentation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            color: #333;
+        }
+        .endpoint {
+            background-color: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 5px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .method {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 3px;
+            color: white;
+            font-weight: bold;
+        }
+        .post { background-color: #49cc90; }
+        .get { background-color: #61affe; }
+        pre {
+            background-color: #272822;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f5f5f5;
+        }
+        .response {
+            margin-top: 10px;
+            border-left: 4px solid #49cc90;
+            padding-left: 15px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Organisation Registration API Documentation</h1>
+    <p>This documentation provides detailed information about the Organisation Registration API endpoints, including request/response formats and examples.</p>
+
+    <div class="endpoint">
+        <h2>1. Send Mobile OTP</h2>
+        <span class="method post">POST</span> <code>/api/organisations/send-mobile-otp</code>
+        <p>Sends an OTP to the provided mobile number for verification.</p>
+
+        <h3>Request Body</h3>
+        <table>
+            <tr>
+                <th>Field</th>
+                <th>Type</th>
+                <th>Required</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <td>mobileNumber</td>
+                <td>String</td>
+                <td>Yes</td>
+                <td>Mobile number to receive OTP</td>
+            </tr>
+        </table>
+
+        <h3>cURL Example</h3>
+        <pre>
+curl -X POST http://168.231.120.19:3001/api/organisations/send-mobile-otp \
+-H "Content-Type: application/json" \
+-d '{
+    "mobileNumber": "1234567890"
+}'
+        </pre>
+
+        <h3>JavaScript Example</h3>
+        <pre>
+const sendMobileOTP = async () => {
+    try {
+        const response = await fetch('http://168.231.120.19:3001/api/organisations/send-mobile-otp', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                mobileNumber: '1234567890'
+            })
+        });
+        const data = await response.json();
+        console.log(data);
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+        </pre>
+
+        <div class="response">
+            <h3>Response Example</h3>
+            <pre>
+{
+    "message": "Mobile OTP sent successfully",
+    "otp": "1234"  // Note: Only included in development
+}
+            </pre>
+        </div>
+    </div>
+
+    <div class="endpoint">
+        <h2>2. Send Email OTP</h2>
+        <span class="method post">POST</span> <code>/api/organisations/send-email-otp</code>
+        <p>Sends an OTP to the provided email address for verification.</p>
+
+        <h3>Request Body</h3>
+        <table>
+            <tr>
+                <th>Field</th>
+                <th>Type</th>
+                <th>Required</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <td>email</td>
+                <td>String</td>
+                <td>Yes</td>
+                <td>Email address to receive OTP</td>
+            </tr>
+        </table>
+
+        <h3>cURL Example</h3>
+        <pre>
+curl -X POST http://168.231.120.19:3001/api/organisations/send-email-otp \
+-H "Content-Type: application/json" \
+-d '{
+    "email": "example@email.com"
+}'
+        </pre>
+
+        <h3>JavaScript Example</h3>
+        <pre>
+const sendEmailOTP = async () => {
+    try {
+        const response = await fetch('http://168.231.120.19:3001/api/organisations/send-email-otp', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                email: 'example@email.com'
+            })
+        });
+        const data = await response.json();
+        console.log(data);
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+        </pre>
+
+        <div class="response">
+            <h3>Response Example</h3>
+            <pre>
+{
+    "message": "Email OTP sent successfully",
+    "otp": "1234"  // Note: Only included in development
+}
+            </pre>
+        </div>
+    </div>
+
+    <div class="endpoint">
+        <h2>3. Verify Mobile OTP</h2>
+        <span class="method post">POST</span> <code>/api/organisations/verify-mobile-otp</code>
+        <p>Verifies the OTP sent to the mobile number.</p>
+
+        <h3>Request Body</h3>
+        <table>
+            <tr>
+                <th>Field</th>
+                <th>Type</th>
+                <th>Required</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <td>mobileNumber</td>
+                <td>String</td>
+                <td>Yes</td>
+                <td>Mobile number that received the OTP</td>
+            </tr>
+            <tr>
+                <td>otp</td>
+                <td>String</td>
+                <td>Yes</td>
+                <td>The OTP received</td>
+            </tr>
+        </table>
+
+        <h3>cURL Example</h3>
+        <pre>
+curl -X POST http://168.231.120.19:3001/api/organisations/verify-mobile-otp \
+-H "Content-Type: application/json" \
+-d '{
+    "mobileNumber": "1234567890",
+    "otp": "1234"
+}'
+        </pre>
+
+        <h3>JavaScript Example</h3>
+        <pre>
+const verifyMobileOTP = async () => {
+    try {
+        const response = await fetch('http://168.231.120.19:3001/api/organisations/verify-mobile-otp', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                mobileNumber: '1234567890',
+                otp: '1234'
+            })
+        });
+        const data = await response.json();
+        console.log(data);
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+        </pre>
+
+        <div class="response">
+            <h3>Response Example</h3>
+            <pre>
+{
+    "message": "Mobile OTP verified successfully"
+}
+            </pre>
+        </div>
+    </div>
+
+    <div class="endpoint">
+        <h2>4. Verify Email OTP</h2>
+        <span class="method post">POST</span> <code>/api/organisations/verify-email-otp</code>
+        <p>Verifies the OTP sent to the email address.</p>
+
+        <h3>Request Body</h3>
+        <table>
+            <tr>
+                <th>Field</th>
+                <th>Type</th>
+                <th>Required</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <td>email</td>
+                <td>String</td>
+                <td>Yes</td>
+                <td>Email address that received the OTP</td>
+            </tr>
+            <tr>
+                <td>otp</td>
+                <td>String</td>
+                <td>Yes</td>
+                <td>The OTP received</td>
+            </tr>
+        </table>
+
+        <h3>cURL Example</h3>
+        <pre>
+curl -X POST http://168.231.120.19:3001/api/organisations/verify-email-otp \
+-H "Content-Type: application/json" \
+-d '{
+    "email": "example@email.com",
+    "otp": "1234"
+}'
+        </pre>
+
+        <h3>JavaScript Example</h3>
+        <pre>
+const verifyEmailOTP = async () => {
+    try {
+        const response = await fetch('http://168.231.120.19:3001/api/organisations/verify-email-otp', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                email: 'example@email.com',
+                otp: '1234'
+            })
+        });
+        const data = await response.json();
+        console.log(data);
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+        </pre>
+
+        <div class="response">
+            <h3>Response Example</h3>
+            <pre>
+{
+    "message": "Email OTP verified successfully"
+}
+            </pre>
+        </div>
+    </div>
+
+    <div class="endpoint">
+        <h2>5. Register Organisation</h2>
+        <span class="method post">POST</span> <code>/api/organisations/register</code>
+        <p>Registers a new organisation after OTP verification.</p>
+
+        <h3>Request Body</h3>
+        <table>
+            <tr>
+                <th>Field</th>
+                <th>Type</th>
+                <th>Required</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <td>name</td>
+                <td>String</td>
+                <td>Yes</td>
+                <td>Organisation name</td>
+            </tr>
+            <tr>
+                <td>role</td>
+                <td>String</td>
+                <td>Yes</td>
+                <td>Role in organisation</td>
+            </tr>
+            <tr>
+                <td>mobileNumber</td>
+                <td>String</td>
+                <td>Yes</td>
+                <td>Organisation contact number</td>
+            </tr>
+            <tr>
+                <td>organiserName</td>
+                <td>String</td>
+                <td>Yes</td>
+                <td>Name of the organiser</td>
+            </tr>
+            <tr>
+                <td>organiserAddress</td>
+                <td>Object</td>
+                <td>Yes</td>
+                <td>Address details object</td>
+            </tr>
+            <tr>
+                <td>organiserMobileNumber</td>
+                <td>String</td>
+                <td>Yes</td>
+                <td>Organiser's contact number</td>
+            </tr>
+            <tr>
+                <td>organiserEmail</td>
+                <td>String</td>
+                <td>Yes</td>
+                <td>Organiser's email</td>
+            </tr>
+            <tr>
+                <td>directorName</td>
+                <td>String</td>
+                <td>Yes</td>
+                <td>Name of the director</td>
+            </tr>
+            <tr>
+                <td>password</td>
+                <td>String</td>
+                <td>Yes</td>
+                <td>Account password</td>
+            </tr>
+        </table>
+
+        <h3>cURL Example</h3>
+        <pre>
+curl -X POST http://168.231.120.19:3001/api/organisations/register \
+-H "Content-Type: application/json" \
+-d '{
+    "name": "Tech Organisation",
+    "role": "Admin",
+    "mobileNumber": "1234567890",
+    "organiserName": "John Doe",
+    "organiserAddress": {
+        "addressLine1": "123 Main St",
+        "addressLine2": "Suite 100",
+        "cityDistrict": "New York",
+        "pincode": "10001",
+        "country": "India"
+    },
+    "organiserMobileNumber": "9876543210",
+    "organiserEmail": "john@example.com",
+    "organiserWebsite": "www.example.com",
+    "directorName": "Jane Smith",
+    "directorMobileNumber": "5555555555",
+    "password": "securePassword123"
+}'
+        </pre>
+
+        <h3>JavaScript Example</h3>
+        <pre>
+const registerOrganisation = async () => {
+    try {
+        const response = await fetch('http://168.231.120.19:3001/api/organisations/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                name: "Tech Organisation",
+                role: "Admin",
+                mobileNumber: "1234567890",
+                organiserName: "John Doe",
+                organiserAddress: {
+                    addressLine1: "123 Main St",
+                    addressLine2: "Suite 100",
+                    cityDistrict: "New York",
+                    pincode: "10001",
+                    country: "India"
+                },
+                organiserMobileNumber: "9876543210",
+                organiserEmail: "john@example.com",
+                organiserWebsite: "www.example.com",
+                directorName: "Jane Smith",
+                directorMobileNumber: "5555555555",
+                password: "securePassword123"
+            })
+        });
+        const data = await response.json();
+        console.log(data);
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+        </pre>
+
+        <div class="response">
+            <h3>Response Example</h3>
+            <pre>
+{
+    "message": "Organization registered successfully",
+    "data": {
+        "name": "Tech Organisation",
+        "role": "Admin",
+        "mobileNumber": "1234567890",
+        "otpVerificationStatus": true,
+        "organiserName": "John Doe",
+        "organiserAddress": {
+            "addressLine1": "123 Main St",
+            "addressLine2": "Suite 100",
+            "cityDistrict": "New York",
+            "pincode": "10001",
+            "country": "India"
+        },
+        "organiserMobileNumber": "9876543210",
+        "organiserEmail": "john@example.com",
+        "organiserWebsite": "www.example.com",
+        "directorName": "Jane Smith",
+        "directorMobileNumber": "5555555555",
+        "_id": "...",
+        "createdAt": "2024-01-01T00:00:00.000Z"
+    }
+}
+            </pre>
+        </div>
+    </div>
+
+    <div class="endpoint">
+        <h2>6. Login Organisation</h2>
+        <span class="method post">POST</span> <code>/api/organisations/login</code>
+        <p>Authenticates an organisation using either mobile number or email along with password.</p>
+
+        <h3>Request Body</h3>
+        <table>
+            <tr>
+                <th>Field</th>
+                <th>Type</th>
+                <th>Required</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <td>mobileNumber</td>
+                <td>String</td>
+                <td>Yes*</td>
+                <td>Organisation's registered mobile number (required if email is not provided)</td>
+            </tr>
+            <tr>
+                <td>email</td>
+                <td>String</td>
+                <td>Yes*</td>
+                <td>Organisation's registered email (required if mobileNumber is not provided)</td>
+            </tr>
+            <tr>
+                <td>password</td>
+                <td>String</td>
+                <td>Yes</td>
+                <td>Organisation's password</td>
+            </tr>
+        </table>
+        <p><small>* Either mobileNumber or email must be provided</small></p>
+
+        <h3>cURL Example (Mobile Login)</h3>
+        <pre>
+curl -X POST http://168.231.120.19:3001/api/organisations/login \
+-H "Content-Type: application/json" \
+-d '{
+    "mobileNumber": "1234567890",
+    "password": "securePassword123"
+}'
+        </pre>
+
+        <h3>cURL Example (Email Login)</h3>
+        <pre>
+curl -X POST http://168.231.120.19:3001/api/organisations/login \
+-H "Content-Type: application/json" \
+-d '{
+    "email": "john@example.com",
+    "password": "securePassword123"
+}'
+        </pre>
+
+        <h3>JavaScript Example</h3>
+        <pre>
+// Login with mobile number
+const loginWithMobile = async () => {
+    try {
+        const response = await fetch('http://168.231.120.19:3001/api/organisations/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                mobileNumber: '1234567890',
+                password: 'securePassword123'
+            })
+        });
+        const data = await response.json();
+        console.log(data);
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+
+// Login with email
+const loginWithEmail = async () => {
+    try {
+        const response = await fetch('http://168.231.120.19:3001/api/organisations/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                email: 'john@example.com',
+                password: 'securePassword123'
+            })
+        });
+        const data = await response.json();
+        console.log(data);
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+        </pre>
+
+        <div class="response">
+            <h3>Response Example</h3>
+            <pre>
+{
+    "message": "Login successful",
+    "data": {
+        "_id": "...",
+        "name": "Tech Organisation",
+        "role": "Admin",
+        "mobileNumber": "1234567890",
+        "organiserName": "John Doe",
+        "organiserAddress": {
+            "addressLine1": "123 Main St",
+            "addressLine2": "Suite 100",
+            "cityDistrict": "New York",
+            "pincode": "10001",
+            "country": "India"
+        },
+        "organiserMobileNumber": "9876543210",
+        "organiserEmail": "john@example.com",
+        "organiserWebsite": "www.example.com",
+        "directorName": "Jane Smith",
+        "directorMobileNumber": "5555555555",
+        "createdAt": "2024-01-01T00:00:00.000Z"
+    },
+    "status": true
+}
+            </pre>
+        </div>
+    </div>
+
+    <div class="endpoint">
+        <h2>7. Get All Organisations</h2>
+        <span class="method get">GET</span> <code>/api/organisations</code>
+        <p>Retrieves a list of all registered organisations.</p>
+
+        <h3>cURL Example</h3>
+        <pre>
+curl http://168.231.120.19:3001/api/organisations
+        </pre>
+
+        <h3>JavaScript Example</h3>
+        <pre>
+const getAllOrganisations = async () => {
+    try {
+        const response = await fetch('http://168.231.120.19:3001/api/organisations');
+        const data = await response.json();
+        console.log(data);
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+        </pre>
+
+        <div class="response">
+            <h3>Response Example</h3>
+            <pre>
+{
+    "data": [
+        {
+            "_id": "...",
+            "name": "Tech Organisation",
+            "role": "Admin",
+            "mobileNumber": "1234567890",
+            // ... other organisation details
+        },
+        // ... more organisations
+    ]
+}
+            </pre>
+        </div>
+    </div>
+
+    <div class="endpoint">
+        <h2>8. Get Organisation by ID</h2>
+        <span class="method get">GET</span> <code>/api/organisations/:id</code>
+        <p>Retrieves details of a specific organisation by ID.</p>
+
+        <h3>cURL Example</h3>
+        <pre>
+curl http://168.231.120.19:3001/api/organisations/123456789
+        </pre>
+
+        <h3>JavaScript Example</h3>
+        <pre>
+const getOrganisationById = async (id) => {
+    try {
+        const response = await fetch(`http://168.231.120.19:3001/api/organisations/${id}`);
+        const data = await response.json();
+        console.log(data);
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+        </pre>
+
+        <div class="response">
+            <h3>Response Example</h3>
+            <pre>
+{
+    "data": {
+        "_id": "123456789",
+        "name": "Tech Organisation",
+        "role": "Admin",
+        "mobileNumber": "1234567890",
+        // ... other organisation details
+    }
+}
+            </pre>
+        </div>
+    </div>
+
+    <div class="endpoint">
+        <h2>8. Forget Password - Send OTP</h2>
+        <span class="method post">POST</span> <code>/api/organisations/forget-password/send-otp</code>
+        <p>Sends an OTP to the provided mobile number or email for password reset.</p>
+
+        <h3>Request Body</h3>
+        <table>
+            <tr>
+                <th>Field</th>
+                <th>Type</th>
+                <th>Required</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <td>mobileNumber</td>
+                <td>String</td>
+                <td>Yes*</td>
+                <td>Organisation's registered mobile number (required if email is not provided)</td>
+            </tr>
+            <tr>
+                <td>email</td>
+                <td>String</td>
+                <td>Yes*</td>
+                <td>Organisation's registered email (required if mobileNumber is not provided)</td>
+            </tr>
+        </table>
+        <p><small>* Either mobileNumber or email must be provided</small></p>
+
+        <h3>cURL Example (Mobile)</h3>
+        <pre>
+curl -X POST http://168.231.120.19:3001/api/organisations/forget-password/send-otp \
+-H "Content-Type: application/json" \
+-d '{
+    "mobileNumber": "1234567890"
+}'
+        </pre>
+
+        <h3>cURL Example (Email)</h3>
+        <pre>
+curl -X POST http://168.231.120.19:3001/api/organisations/forget-password/send-otp \
+-H "Content-Type: application/json" \
+-d '{
+    "email": "john@example.com"
+}'
+        </pre>
+
+        <div class="response">
+            <h3>Response Example</h3>
+            <pre>
+{
+    "message": "Forget password OTP sent successfully",
+    "status": true,
+    "otp": "1234"  // Note: Only included in development
+}
+            </pre>
+        </div>
+    </div>
+
+    <div class="endpoint">
+        <h2>9. Forget Password - Verify OTP</h2>
+        <span class="method post">POST</span> <code>/api/organisations/forget-password/verify-otp</code>
+        <p>Verifies the OTP sent for password reset.</p>
+
+        <h3>Request Body</h3>
+        <table>
+            <tr>
+                <th>Field</th>
+                <th>Type</th>
+                <th>Required</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <td>mobileNumber</td>
+                <td>String</td>
+                <td>Yes*</td>
+                <td>Organisation's registered mobile number (required if email is not provided)</td>
+            </tr>
+            <tr>
+                <td>email</td>
+                <td>String</td>
+                <td>Yes*</td>
+                <td>Organisation's registered email (required if mobileNumber is not provided)</td>
+            </tr>
+            <tr>
+                <td>otp</td>
+                <td>String</td>
+                <td>Yes</td>
+                <td>The OTP received</td>
+            </tr>
+        </table>
+        <p><small>* Either mobileNumber or email must be provided</small></p>
+
+        <h3>cURL Example</h3>
+        <pre>
+curl -X POST http://168.231.120.19:3001/api/organisations/forget-password/verify-otp \
+-H "Content-Type: application/json" \
+-d '{
+    "mobileNumber": "1234567890",
+    "otp": "1234"
+}'
+        </pre>
+
+        <div class="response">
+            <h3>Response Example</h3>
+            <pre>
+{
+    "message": "OTP verified successfully",
+    "status": true
+}
+            </pre>
+        </div>
+    </div>
+
+    <div class="endpoint">
+        <h2>10. Forget Password - Reset Password</h2>
+        <span class="method post">POST</span> <code>/api/organisations/forget-password/reset</code>
+        <p>Resets the password after OTP verification.</p>
+
+        <h3>Request Body</h3>
+        <table>
+            <tr>
+                <th>Field</th>
+                <th>Type</th>
+                <th>Required</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <td>mobileNumber</td>
+                <td>String</td>
+                <td>Yes*</td>
+                <td>Organisation's registered mobile number (required if email is not provided)</td>
+            </tr>
+            <tr>
+                <td>email</td>
+                <td>String</td>
+                <td>Yes*</td>
+                <td>Organisation's registered email (required if mobileNumber is not provided)</td>
+            </tr>
+            <tr>
+                <td>newPassword</td>
+                <td>String</td>
+                <td>Yes</td>
+                <td>New password to set</td>
+            </tr>
+        </table>
+        <p><small>* Either mobileNumber or email must be provided</small></p>
+
+        <h3>cURL Example</h3>
+        <pre>
+curl -X POST http://168.231.120.19:3001/api/organisations/forget-password/reset \
+-H "Content-Type: application/json" \
+-d '{
+    "mobileNumber": "1234567890",
+    "newPassword": "newSecurePassword123"
+}'
+        </pre>
+
+        <div class="response">
+            <h3>Response Example</h3>
+            <pre>
+{
+    "message": "Password reset successfully",
+    "status": true
+}
+            </pre>
+        </div>
+    </div>
+
+    <h2>Error Responses</h2>
+    <p>The API may return the following error responses:</p>
+    <table>
+        <tr>
+            <th>Status Code</th>
+            <th>Description</th>
+            <th>Example Response</th>
+        </tr>
+        <tr>
+            <td>400</td>
+            <td>Bad Request - Invalid input data</td>
+            <td><pre>{"message": "Mobile number is required"}</pre></td>
+        </tr>
+        <tr>
+            <td>400</td>
+            <td>Bad Request - Invalid OTP</td>
+            <td><pre>{"message": "Invalid OTP"}</pre></td>
+        </tr>
+        <tr>
+            <td>404</td>
+            <td>Not Found - Resource not found</td>
+            <td><pre>{"message": "Organization not found"}</pre></td>
+        </tr>
+        <tr>
+            <td>500</td>
+            <td>Internal Server Error</td>
+            <td><pre>{"message": "Error sending OTP"}</pre></td>
+        </tr>
+    </table>
+
+    <h2>Notes</h2>
+    <ul>
+        <li>All requests requiring a body should have the Content-Type header set to application/json</li>
+        <li>Both mobile and email OTP verification must be completed before registration</li>
+        <li>The static OTP "1234" is used for development purposes only</li>
+        <li>Passwords are automatically hashed before storage</li>
+        <li>All dates are returned in ISO 8601 format</li>
+    </ul>
+</body>
+</html> 
