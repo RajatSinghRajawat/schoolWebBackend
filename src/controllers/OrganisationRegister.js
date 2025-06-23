@@ -292,7 +292,7 @@ exports.registerOrganisation = async (req, res) => {
         } = req.body;
 
         const existingOrg = await OrganisationRegister.findOne({ mobileNumber });
-       
+
 
         if (existingOrg && !existingOrg.emailOtpVerificationStatus && !existingOrg.mobileOtpVerificationStatus) {
             return res.status(400).json({ message: 'Please verify OTP first' });
@@ -321,7 +321,7 @@ exports.registerOrganisation = async (req, res) => {
             });
 
             savedOrganisation = await existingOrg.save();
-           
+
         } else {
             const newOrganisation = new OrganisationRegister({
                 name,
@@ -339,7 +339,7 @@ exports.registerOrganisation = async (req, res) => {
             });
 
             savedOrganisation = await newOrganisation.save();
-           
+
         }
 
         // Generate JWT token
@@ -352,23 +352,23 @@ exports.registerOrganisation = async (req, res) => {
         //     { expiresIn: "7d" }
         // );
 
-        const token = jwt.sign({ _id: savedOrganisation._id }, "helllo" , { expiresIn: "7d" });
+        const token = jwt.sign({ _id: savedOrganisation._id }, "helllo", { expiresIn: "7d" });
 
         const organisationData = savedOrganisation.toObject();
-        console.log(organisationData,"organisationData");
-        
+        console.log(organisationData, "organisationData");
+
         delete organisationData.password;
         delete organisationData.otp;
 
-       if(token){
-         return res.status(201).json({
-            message: 'Organization registered successfully',
-            data: organisationData,
-            token,
-            status: true
-        });
+        if (token) {
+            return res.status(201).json({
+                message: 'Organization registered successfully',
+                data: organisationData,
+                token,
+                status: true
+            });
 
-       }
+        }
     } catch (error) {
         console.error('Error in registerOrganisation:', error);
         res.status(500).json({ message: 'Error registering organization' });
@@ -400,10 +400,10 @@ exports.getOrganisationById = async (req, res) => {
 };
 
 exports.loginOrganisation = async (req, res) => {
+    console.log("heee");
+    
     try {
         const { mobileNumber, email, password } = req.body;
-        console.log(mobileNumber, email, password, "loginOrganisation");
-
         if ((!mobileNumber && !email) || !password) {
             return res.status(400).json({
                 message: 'Either mobile number or email, and password are required',
@@ -451,11 +451,9 @@ exports.loginOrganisation = async (req, res) => {
         }
 
         // Generate JWT token
- 
-                const token = jwt.sign({ _id: organisation._id }, "helllo" , { expiresIn: "7d" });
 
+        const token = jwt.sign({ id: organisation._id }, "helllo", { expiresIn: "7d" });
 
-        // Return organization data without password
         const organisationData = organisation.toObject();
         delete organisationData.password;
         delete organisationData.otp;
@@ -475,6 +473,11 @@ exports.loginOrganisation = async (req, res) => {
         });
     }
 };
+
+
+
+
+
 exports.sendForgetPasswordOTP = async (req, res) => {
     try {
         const { mobileNumber, email } = req.body;
