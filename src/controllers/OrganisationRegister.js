@@ -424,7 +424,6 @@ exports.loginOrganisation = async (req, res) => {
             });
         }
 
-        console.log(organisation, "kkkkkk");
 
         if (!organisation) {
             return res.status(404).json({
@@ -452,15 +451,9 @@ exports.loginOrganisation = async (req, res) => {
         }
 
         // Generate JWT token
-        const token = jwt.sign(
-            {
-                id: organisation._id,
-                email: organisation.email || organisation.organiserEmail,
-                role: 'organisation'
-            },
-            JWT_SECRET,
-            { expiresIn: '7d' } // token valid for 7 days
-        );
+ 
+                const token = jwt.sign({ _id: organisation._id }, "helllo" , { expiresIn: "7d" });
+
 
         // Return organization data without password
         const organisationData = organisation.toObject();
