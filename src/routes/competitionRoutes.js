@@ -35,5 +35,6 @@ router.put('/awards/:id', competitionController.updateAwards);
 
 // all competitions
 router.get('/all', competitionController.getAllCompetitions);
+router.get('/allorganiser/:id', competitionController.getCompetitionsByOrganizer);
 
 module.exports = router; 

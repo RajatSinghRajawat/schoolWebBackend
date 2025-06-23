@@ -309,3 +309,17 @@ exports.getAllCompetitions = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
+
+
+exports.getCompetitionsByOrganizer = async (req, res) => {
+    try {
+        const { organizerId } = req.params;
+        const competitions = await Competition.find({ organizerId });
+        if (!competitions.length) {
+            return res.status(404).json({ message: 'No competitions found for this organizer' });
+        }
+        res.json(competitions);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
